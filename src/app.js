@@ -1,9 +1,10 @@
 import express from "express";
-const {engine} = require("express-handlebars")
+import morgan from "morgan"
 import path from 'path'
+const {engine} = require("express-handlebars")
 import indexRoutes from "./routes/index.routes"
-const app = express()
 
+const app = express()
 app.set("views", path.join(__dirname, "views"))
 
 app.engine(".hbs", engine({
@@ -13,6 +14,9 @@ app.engine(".hbs", engine({
 }));
 
 app.set("view engine", ".hbs")
+
+app.use(morgan("dev"))
+app.use(express.urlencoded({extended:false}))
 
 app.use(indexRoutes)
 
